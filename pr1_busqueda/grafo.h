@@ -15,7 +15,7 @@
 
 #include <iostream>
 #include <vector>
-#include "node.h"
+
 
 class grafo{
     
