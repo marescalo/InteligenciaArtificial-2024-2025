@@ -47,7 +47,8 @@ int main(){
     grafo_clase.DFS(inicio-1, final-1, out);
   }
   else{
-    std::cout << error_opcion << std::endl;
+    std::cout  << "ERROR: se ha introducido una opcion incorrecta o no se introdujo ninguna \ncierre de programa" << std::endl;
+    exit(1);
   }
 
   out.close();

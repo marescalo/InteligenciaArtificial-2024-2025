@@ -20,7 +20,7 @@ void grafo::crear_grafo(const std::string& file_name){
     std::ifstream file(file_name); // Abrir el archivo
     if (!file.is_open()) { // Verificar si el archivo se abrió correctamente
         std::cout << "Error: ¡No se pudo abrir el archivo!" << std::endl;
-        return;
+        exit(1);
     }
 
     file >> nodo_; // Leer el número de nodos
