@@ -26,6 +26,7 @@ class grafo{
         void crear_grafo(const std::string& file_name);
         void DFS(int inicio, int final, std::ostream& out);
         void BFS(int inicio, int final, std::ostream& out);
+        void Modificacion(int inicio, int final, std::ostream& out);
 
     private:
         std::vector<std::vector<double>> matriz_; //cambiar nombre

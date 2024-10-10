@@ -15,6 +15,7 @@
 
 #include "grafo.h"
 #include <vector>
+#include <cstdlib>
 
 void grafo::crear_grafo(const std::string& file_name){
     std::ifstream file(file_name); // Abrir el archivo
@@ -112,11 +113,11 @@ void grafo::DFS(int inicio, int final, std::ostream& out){
         }
         out << std::endl;
 
-        if (found) break;  // Si encontramos el vértice de destino, salimos del bucle
+        if (found == true) break;  // Si encontramos el vértice de destino, salimos del bucle
     }
 
     // Reconstruir el camino y calcular el costo total
-    if (found) {
+    if (found == true) {
         std::vector<int> path;
         double totalCost = 0.0;  // Variable para almacenar el coste total del camino
         for (int v = final; v != -1; v = parent[v]) {
@@ -136,7 +137,8 @@ void grafo::DFS(int inicio, int final, std::ostream& out){
         }
         out << std::endl;
         out << "Costo: " << totalCost << std::endl;
-    } else {
+    } 
+    else {
         out << "No se encontró un camino desde " << inicio + 1 << " hasta " << final + 1 << std::endl;
     }
 }
@@ -236,4 +238,96 @@ void grafo::BFS(int inicio, int final, std::ostream& out){
     } else {
         out << "No se encontró un camino desde " << inicio + 1 << " hasta " << final + 1 << std::endl;
     }
+}
+
+void grafo::Modificacion(int inicio, int final, std::ostream& out){
+
+std::vector<bool> visited(nodo_, false);  // Para rastrear nodos visitados
+    std::vector<int> parent(nodo_, -1);       // Para reconstruir el camino
+    std::vector<int> toExplore;                // Nodos por explorar
+    std::vector<int> inspected;                // Nodos inspeccionados
+    int numEdges = 0;                     // Contador de aristas
+
+    // Imprimir el número de nodos y aristas del grafo
+    for (int i = 0; i < nodo_; ++i) {
+        for (int j = 0; j < nodo_; ++j) {
+            if (matriz_[i][j] != -1.00) {
+                numEdges++;
+            }
+        }
+    }
+    numEdges /= 2;  // Porque las aristas son bidireccionales y se cuentan doble
+    out << "Número de nodos del grafo: " << nodo_ << std::endl;
+    out << "Número de aristas del grafo: " << numEdges << std::endl;
+    out << "Vértice origen: " << inicio + 1 << std::endl;
+    out << "Vértice destino: " << final + 1 << std::endl;
+
+    toExplore.push_back(inicio); // Agregar el nodo de inicio a la lista de exploración
+    visited[inicio] = true; // Marcar el nodo de inicio como visitado
+    int currentIndex = 0;
+    bool found = false;
+    int iteration = 1;
+    std::vector<int> newGenerated;  // Para almacenar los nuevos nodos generados en esta iteración
+
+    // Bucle principal de BFS
+    while (currentIndex < toExplore.size()) {
+        int current = toExplore[currentIndex];
+        inspected.push_back(current); // Agregar el nodo actual a la lista de inspeccionados
+
+        // Explorar nodos adyacentes (generados)
+        for (int i = 0; i < nodo_; ++i) {
+            if (matriz_[current][i] != -1.00 && !visited[i]) {
+                visited[i] = true; // Marcar el nodo como visitado
+                parent[i] = current; // Establecer el nodo actual como padre
+                toExplore.push_back(i); // Agregar el nodo a la lista de exploración
+                newGenerated.push_back(i + 1);  // Convertir a 1-based index
+
+                // coste del nodo para calcular de v(n)
+                double vn{0.00}; // v(n) = valor del nodo n
+                double tn{0.00}; // t(n) = 1/v(n)
+                double t{0.00}; //sumatorio de las T
+                double pr{0.00};
+                for(int k{inicio}; k <= final; k++){
+                    while( k == final){
+                        int num_rand = rand(0-1);
+                        
+                        for (int j = final; j != -1; j = parent[j]){
+                            if(parent[j] != -1){
+                                t += parent[j];
+                                vn = parent[j];
+                                tn = (1/vn);
+                                pr = (tn/t);
+                            }
+                            if(num_rand > pr){
+                                pr += pr;
+                            }
+                        }
+                        
+                    }
+                }
+
+
+                if (i == final) {
+                    found = true; // Si encontramos el nodo de destino, marcar como encontrado
+                }
+            }
+        }
+
+        currentIndex++;
+        if (found) break;  // Si encontramos el vértice de destino, salimos del bucle
+    }
+
+    // Reconstruir el camino y calcular el costo total
+    if (found) {
+        std::vector<int> path;
+        double totalCost = 0.0;  // Variable para almacenar el coste total del camino
+        for (int v = final; v != -1; v = parent[v]) {
+            path.push_back(v + 1);  // Convertimos a 1-based index
+            if (parent[v] != -1) {
+                totalCost += matriz_[parent[v]][v];  // Sumar el coste de la arista entre parent[v] y v
+            }
+        }
+        reverse(path.begin(), path.end()); // Invertir el camino para obtener el orden correcto
+
+
 }

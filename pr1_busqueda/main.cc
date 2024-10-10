@@ -35,7 +35,7 @@ int main(){
   std::cin >> inicio >> final;
 
   int recorrido{};    
-  std::cout << "Elija un recorrido para hacer: BFS(1) o DFS(2)" << std::endl;
+  std::cout << "Elija un recorrido para hacer: BFS(1), DFS(2) o Modificacion(3)" << std::endl;
   std::cin >> recorrido;
 
   std::ofstream out{"output.txt"};
@@ -45,6 +45,9 @@ int main(){
   }
   else if(recorrido == 2){
     grafo_clase.DFS(inicio-1, final-1, out);
+  }
+  else if(recorrido == 3){
+    grafo_clase.Modificacion(inicio-1, final-1, out);
   }
   else{
     std::cout  << "ERROR: se ha introducido una opcion incorrecta o no se introdujo ninguna \ncierre de programa" << std::endl;
