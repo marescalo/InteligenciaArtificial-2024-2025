@@ -15,11 +15,42 @@
 
 #include <iostream>
 #include <vector>
-#include "node.h"
 #include "grafo.h"
+
+void error_opcion(){
+    std::cout  << "ERROR: se ha introducido una opcion incorrecta o no se introdujo ninguna \n cierre de programa" << std::endl;
+}
 
 int main(){
 
+  grafo grafo_clase(0);
+  std::string input;
+  std::cout << "introduzca al nombre del archivo que quiere utilizar" << std::endl;
+  std::cin >> input;
+  grafo_clase.crear_grafo(input);
 
+  int inicio{};
+  int final{};
+  std::cout << "intruduzca el nodo inicial y el nodo final del recorrido" << std::endl;
+  std::cin >> inicio >> final;
+
+  int recorrido{};    
+  std::cout << "Elija un recorrido para hacer: BFS(1) o DFS(2)" << std::endl;
+  std::cin >> recorrido;
+
+  std::ofstream out{"output.txt"};
+
+  if ( recorrido == 1){
+    grafo_clase.BFS(inicio-1, final-1, out);
+  }
+  else if(recorrido == 2){
+    grafo_clase.DFS(inicio-1, final-1, out);
+  }
+  else{
+    std::cout << error_opcion << std::endl;
+  }
+
+  out.close();
+  return 0;
 
 }

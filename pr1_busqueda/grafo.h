@@ -15,20 +15,19 @@
 
 #include <iostream>
 #include <vector>
-
+#include <fstream>
+#include <string>
+#include <algorithm>
 
 class grafo{
     
     public:
-        grafo(/* args */);
-        ~grafo();
+        grafo(int nodo):nodo_(nodo) {matriz_.resize(nodo,std::vector<double>(nodo,0));};
+        void crear_grafo(const std::string& file_name);
+        void DFS(int inicio, int final, std::ostream& out);
+        void BFS(int inicio, int final, std::ostream& out);
 
     private:
-        std::vector<nodo> graf;
+        std::vector<std::vector<double>> matriz_; //cambiar nombre
+        int nodo_{};
 };
-
-grafo::grafo(/* args */){
-}
-
-grafo::~grafo(){
-}
